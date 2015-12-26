@@ -5,7 +5,8 @@ oknum=0
 nonum=0
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
-out=open("temp","a")
+domaintemp=open("domain_temp","a")
+pathtemp=open("path_temp","a")
 indomain=open("in.txt")
 start = datetime.datetime.now()
 headers = {'content-type': 'application/json',
@@ -25,17 +26,41 @@ for line in indomain:
         for url in link_list:
             proto, rest = urllib.splittype(url)
             res, rest = urllib.splithost(rest)
-            #outtxt = str(res).encode('raw-unicode-escape');
-            outtxt = str(res)
-            #print "" if not res else res
-            out.write(outtxt+'\n')
-out.close()
-input = open("temp", "r").read()
-output = open("ok/ok.txt", "w+")
-output.write('\nhttp://'.join(set(input.split('\n'))))
-output.close()
-filename = 'temp'
-os.remove(filename)
+            if  res == '' :
+                break
+            elif not rest:break
+            elif not proto:break
+            else:
+                if str(proto) == 'http':
+                    fullurl= str(proto)+'://'+res
+                    fullpath=str(proto)+'://'+res+rest
+                    pathtemp.write(fullpath+'\n')
+                    domaintemp.write(fullurl+'\n')
+                elif str(proto) == 'https':
+                    fullurl= str(proto)+'://'+res
+                    fullpath=str(proto)+'://'+res+rest
+                    pathtemp.write(fullpath+'\n')
+                    domaintemp.write(fullurl+'\n')
+                else:
+                    break
+domaintemp.close()
+pathtemp.close()
+indomain.close()
+
+domain_temp_input = open("domain_temp", "r").read()
+output_domain = open("ok/fulldomain.txt", "w+")
+output_domain.write('\n'.join(set(domain_temp_input.split('\n'))))
+output_domain.close()
+temp1 = 'domain_temp'
+os.remove(temp1)
+
+path_temp_input = open("path_temp", "r").read()
+out_path = open("ok/fullpath.txt", "w+")
+out_path.write('\n'.join(set(path_temp_input.split('\n'))))
+out_path.close()
+temp2 = 'path_temp'
+os.remove(temp2)
+
 print 'success '+str(oknum)+' domains'
 print 'lose '+str(nonum)+' domains'
 end = datetime.datetime.now()
