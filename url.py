@@ -5,7 +5,7 @@ oknum=0
 nonum=0
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
-out=open("temp","a")
+out=open("temp/temp","a")
 indomain=open("in.txt")
 start = datetime.datetime.now()
 headers = {'content-type': 'application/json',
@@ -30,11 +30,11 @@ for line in indomain:
             #print "" if not res else res
             out.write(outtxt+'\n')
 out.close()
-input = open("temp", "r").read()
-output = open("ok.txt", "w+")
+input = open("temp/temp", "r").read()
+output = open("ok/ok.txt", "w+")
 output.write('\nhttp://'.join(set(input.split('\n'))))
 output.close()
-filename = 'temp'
+filename = 'temp/temp'
 os.remove(filename)
 print 'success '+str(oknum)+' domains'
 print 'lose '+str(nonum)+' domains'
