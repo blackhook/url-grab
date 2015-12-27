@@ -1,10 +1,19 @@
 #!/usr/bin/env python
 # coding=utf-8
 import urllib,re,requests,sys,datetime
+logo="""
+ _   _ ____  _        ____ ____      _    ____
+| | | |  _ \| |      / ___|  _ \    / \  | __ )
+| | | | |_) | |     | |  _| |_) |  / _ \ |  _ |
+| |_| |  _ <| |___  | |_| |  _ <  / ___ \| |_) |
+ \___/|_| \_\_____|  \____|_| \_\/_/   \_\____/
+"""
+print logo
 oknum=nonum=wrong=find1=find2=unknow=0
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
 indomain=open("in.txt")
+incount=len(open('in.txt','rU').readlines())
 path_list = []
 domain_list = []
 start = datetime.datetime.now()
@@ -15,10 +24,11 @@ for line in indomain:
     try:
         r = requests.get(line,verify=True,timeout=2,headers=headers)
         oknum=oknum+1
-        print str(oknum)+'ok!!!'
+        print '('+str(oknum)+"/"+str(incount)+')'+' '+line+' ok'
     except requests.RequestException as e:
-        print line+'  cannot read';
+        oknum=oknum+1
         nonum=nonum+1
+        print '('+str(oknum)+"/"+str(incount)+')'+' '+line+' cannot read';
     else:
         data = r.text
         link_list =re.findall(r"(?<=href=\").+?(?=\")|(?<=href=\').+?(?=\')" ,data)
@@ -56,6 +66,7 @@ output_path = open("ok/fullpath.txt", "w+")
 for n in path_list_t:
     output_path.write(str(n+'\n'))
 output_path.close()
+print '--'*40
 print 'success '+str(oknum)+' domain'
 print 'find http '+str(find1)
 print 'find https '+str(find2)
@@ -64,3 +75,4 @@ print 'lose '+str(nonum)+' domains'
 print 'bad url '+str(wrong)+' unknow wrong '+str(unknow)
 end = datetime.datetime.now()
 print 'use time '+str(end-start)
+print '--'*40
