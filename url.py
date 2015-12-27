@@ -68,10 +68,11 @@ for n in path_list_t:
 output_path.close()
 print '--'*40
 print 'success '+str(oknum)+' domain'
+print 'lose '+str(nonum)+' domains'
 print 'find http '+str(find1)
 print 'find https '+str(find2)
 print 'find urls '+str(find1+find2)
-print 'lose '+str(nonum)+' domains'
+print 'find distinct domain '+str(len(open('ok/fulldomain.txt','rU').readlines()))+' distinct path '+str(len(open('ok/fullpath.txt','rU').readlines()))
 print 'bad url '+str(wrong)+' unknow wrong '+str(unknow)
 end = datetime.datetime.now()
 print 'use time '+str(end-start)
