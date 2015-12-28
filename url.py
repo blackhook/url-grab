@@ -26,7 +26,7 @@ for line in indomain:
         oknum=oknum+1
         print '('+str(oknum)+"/"+str(incount)+')'+' '+line+' ok'
     except requests.RequestException as e:
-        oknum=oknum+1
+        #oknum=oknum+1
         nonum=nonum+1
         print '('+str(oknum)+"/"+str(incount)+')'+' '+line+' cannot read';
     else:
